@@ -1,12 +1,20 @@
 import React, { useState } from "react";
-
-import { init, track } from "@amplitude/analytics-node";
-
-init("bc49f751bb2f8e4f75d2e399401242fa");
+import { init, track } from "@amplitude/analytics-browser";
+const KEY = process.env.REACT_APP_AMP_API_KEY;
+init(KEY, undefined, {
+  defaultTracking: {
+    sessions: false,
+    pageViews: true,
+    formInteractions: false,
+    fileDownloads: false,
+  },
+});
 
 const SellingPointComponent = () => {
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
+  const [showConfirmation, setShowConfirmation] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleInputChange = (e) => {
     setEmail(e.target.value);
@@ -21,12 +29,24 @@ const SellingPointComponent = () => {
       return;
     }
 
-    // Call the Mailchimp API to subscribe the email
-    addEmailToAudience(email);
+    setLoading(true);
+
+    try {
+      // Simulating an API call
+      track("Email sign-up", { email: email });
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+
+      setShowConfirmation(true);
+      setEmail("");
+      setLoading(false);
+    } catch (error) {
+      setError("An error occurred. Please try again later.");
+      setLoading(false);
+    }
   };
 
-  const addEmailToAudience = async (email) => {
-    track("Email sign-up", email);
+  const handleClear = () => {
+    if (showConfirmation) setShowConfirmation(false);
   };
 
   return (
@@ -47,13 +67,50 @@ const SellingPointComponent = () => {
             placeholder="Indtast din e-mail"
             className="w-full bg-brown-100 text-brown-800 border border-brown-300 rounded py-3 px-4 focus:outline-none text-lg placeholder-brown-500"
             value={email}
+            onFocus={handleClear}
             onChange={handleInputChange}
           />
-          <button className="bg-brown-200 text-brown-800 py-3 px-6 rounded font-semibold focus:outline-none hover:bg-brown-300 hover:text-brown-800 transition-colors duration-300 text-lg">
-            Tilmeld
+          <button
+            className={`bg-brown-200 text-brown-800 py-3 px-6 rounded font-semibold focus:outline-none hover:bg-brown-300 hover:text-brown-800 transition-colors duration-300 text-lg ${
+              loading && "cursor-not-allowed opacity-50"
+            }`}
+            disabled={loading}
+          >
+            {loading ? (
+              <span className="flex items-center">
+                <span className="animate-spin mr-2">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    className="w-4 h-4 animate-spin"
+                  >
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                    ></circle>
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                    ></path>
+                  </svg>
+                </span>
+                Tilmelder...
+              </span>
+            ) : (
+              "Tilmeld"
+            )}
           </button>
         </form>
-        {error && <p className="text-red-500 mt-2">{error}</p>}
+        {error && <p className="text-red-600 mt-2">{error}</p>}
+        {showConfirmation && (
+          <p className="text-brown-100 mt-2">Tak for tilmeldingen!</p>
+        )}
       </div>
     </div>
   );

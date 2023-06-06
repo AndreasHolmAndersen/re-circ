@@ -75,7 +75,7 @@ const CarouselComponent = () => {
             <div key={index} className="aspect-w-16 aspect-h-9">
               <img
                 src={`${imageFolder}${image}`}
-                alt={`Image ${index + 1}`}
+                alt={index + 1}
                 className="object-cover rounded-lg"
               />
             </div>
