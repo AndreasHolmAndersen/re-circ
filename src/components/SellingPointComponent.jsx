@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { init, track } from "@amplitude/analytics-browser";
-init("5e2f4e062feeeb5dacbd4ba7d3576b4d", undefined, {
+init("820b5535e82d5d39f5cba68f85f80052", undefined, {
   defaultTracking: {
     sessions: false,
     pageViews: true,
