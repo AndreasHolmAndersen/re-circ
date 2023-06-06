@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { init, track } from "@amplitude/analytics-browser";
-const KEY = process.env.REACT_APP_AMP_API_KEY;
-init(KEY, undefined, {
+init("5e2f4e062feeeb5dacbd4ba7d3576b4d", undefined, {
   defaultTracking: {
     sessions: false,
     pageViews: true,
