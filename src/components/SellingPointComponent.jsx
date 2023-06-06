@@ -60,6 +60,10 @@ const SellingPointComponent = () => {
           simpel, ved kun et simpelt scan og alle informationer er overført til
           appen på et splitsekund.
         </p>
+        <p className="text-sm md:text-md lg:text-lg xl:text-xl text-brown-100 mb-8">
+          Har vi vakt din interesse? Så sign op med din e-mail nedenstående og
+          få løbende opdateringer.
+        </p>
         <form className="flex gap-3" onSubmit={handleSubmit}>
           <input
             type="email"
