@@ -3,7 +3,7 @@ import "react-responsive-carousel/lib/styles/carousel.min.css"; // Import the ca
 import { Carousel } from "react-responsive-carousel";
 
 const CarouselComponent = () => {
-  const imageCount = 11; // Number of images
+  const imageCount = 10; // Number of images
   const imageFolder = "/images/"; // Path to the image folder
 
   // Generate the array of image file names
